@@ -22,7 +22,7 @@ client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
 
     try {
-        await interaction.deferReply({ ephemeral: true }); // Defer reply as early as possible
+        await interaction.deferReply();
 
         const { commandName, options } = interaction;
 
