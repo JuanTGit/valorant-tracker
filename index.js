@@ -29,33 +29,25 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('messageCreate', async (message) => {
+client.on('interactionCreate', async interaction => {
 
-    if (message.author.bot) return;
+    if (!interaction.isCommand()) return;
 
-    const prefix = '!';
+    const { commandName, options } = interaction;
 
-    if (message.content.startsWith(prefix)) {
-        const args = message.content.slice(prefix.length).trim().split(/ +/);
-        const command = args.shift().toLowerCase();
+        if (commandName === 'track') {
+            const username = options.getString('username');
+            const tag = options.getString('tag').replace('#', "");
+            await getUserData(username, tag, interaction);
 
-        if (command === 'track') {
-            const username = args[0];
-            const tag = args[1]
-            await getUserData(username, tag, message);
-			try {
-				await message.delete();
-			} catch (error) {
-				console.error('Failed to delete message:', error);
-			}
         } else {
-            message.channel.send(`Unknown command ${command}`)
+            interaction.reply(`Unknown command ${commandName}`)
         }
     }
-})
+)
 
 
-async function getUserData(name, tag='na1', message) {
+async function getUserData(name, tag, interaction) {
     try {
         let response = await fetch(`https://api.henrikdev.xyz/valorant/v2/mmr/na/${name}/${tag}`, {
             method: 'GET',
@@ -69,27 +61,84 @@ async function getUserData(name, tag='na1', message) {
         }
 
         let data = await response.json();
+        // console.log(data)
 
         let username = data.data.name;
-        let rank = data.data.current_data.currenttierpatched;
+        let rank = data.data.current_data.currenttierpatched.toUpperCase();
         let current_rr = data.data.current_data.ranking_in_tier;
         let image = data.data.current_data.images.small;
+        let peakTier = data.data.highest_rank.tier;
+        let peakSeason = data.data.highest_rank.season.toUpperCase();
+        let userTag = data.data.tag
 
-        const embed = {
-            color: 0x0099ff,
-            title: `Valorant Profile for ${username}`,
+        let peakRank = await getRank(peakTier)
+        const currentRatingQuotes = [`You're a winner in my heart ${username}!`, 'Oof rough season mah nigga.', 'Getting boosted huh?', `Pick it up you're drooling on yourself.`]
+        const peakRatingQuotes = [`Op crutch??`, 'Boosted Monkey!', `You hit unc status you've PEAKED!`, 'Nothing but a memory now...']
+
+        const embed1 = {
+            color: 0xff0000,
+            title: `|   Current Rating for ${username}#${userTag}   |`,
+            description: getRandomQuote(currentRatingQuotes),
             image: {
                 url: image
             },
-            description: `Status: ${rank}\nRR: ${current_rr}`,
+            fields: [
+                {
+                    name: 'Status',
+                    value: rank,
+                    inline: true
+                },
+                {
+                    name: 'RR',
+                    value: current_rr,
+                    inline: true
+                },
+            ],
         };
 
-        message.channel.send({ embeds: [embed] });
+        const embed2 = {
+            color: 0xffffff,
+            title: `|      Peak Rating for ${username}#${userTag}      |`,
+            description: getRandomQuote(peakRatingQuotes),
+            image: {
+                url: peakRank[0]
+            },
+            fields: [
+                {
+                    name: 'Peak',
+                    value: peakRank[1],
+                    inline: true
+                },
+                {
+                    name: 'Season',
+                    value: peakSeason.replace(/(.{2})(.)/, '$1 $2'),
+                    inline: true
+                },
+            ],
+            timestamp: new Date()
+        };
+
+        await interaction.reply({ embeds: [embed1, embed2] });
     } catch (error) {
         console.error(error);
-        message.channel.send(`Error fetching user data: ${error.message}`);
+        await interaction.reply(`Error fetching user data: ${error.message}`);
     }
 
+}
+
+async function getRank(tier) {
+    const image = await fetch(`https://valorant-api.com/v1/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04`)
+	let data = await image.json()
+
+	let peakRank = data.data.tiers[tier].smallIcon;
+    let tierName = data.data.tiers[tier].tierName;
+
+    return [peakRank, tierName]
+}
+
+function getRandomQuote(arr) {
+    const randomIndex = Math.floor(Math.random() * arr.length);
+    return arr[randomIndex]
 }
 
 client.login(process.env.DISCORD_TOKEN);
