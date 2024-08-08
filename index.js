@@ -55,7 +55,7 @@ client.on('messageCreate', async (message) => {
 })
 
 
-async function getUserData(name, tag, message) {
+async function getUserData(name, tag='na1', message) {
     try {
         let response = await fetch(`https://api.henrikdev.xyz/valorant/v2/mmr/na/${name}/${tag}`, {
             method: 'GET',
@@ -76,7 +76,7 @@ async function getUserData(name, tag, message) {
         let image = data.data.current_data.images.small;
 
         const embed = {
-            color: 0x0099ff, // Embed color
+            color: 0x0099ff,
             title: `Valorant Profile for ${username}`,
             image: {
                 url: image
