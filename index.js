@@ -36,7 +36,7 @@ client.on('interactionCreate', async interaction => {
     const { commandName, options } = interaction;
 
         if (commandName === 'track') {
-            const username = options.getString('username');
+            const username = options.getString('username').replace(' ', '_');
             const tag = options.getString('tag').replace('#', "");
             await getUserData(username, tag, interaction);
 
@@ -61,7 +61,6 @@ async function getUserData(name, tag, interaction) {
         }
 
         let data = await response.json();
-        // console.log(data)
 
         let username = data.data.name;
         let rank = data.data.current_data.currenttierpatched.toUpperCase();
