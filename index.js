@@ -18,26 +18,35 @@ client.on('ready', () => {
 });
 
 client.on('interactionCreate', async interaction => {
-
+    
     if (!interaction.isCommand()) return;
 
-    const { commandName, options } = interaction;
+    try {
+        await interaction.deferReply({ ephemeral: true }); // Defer reply as early as possible
+
+        const { commandName, options } = interaction;
 
         if (commandName === 'track') {
             const username = options.getString('username').replace(' ', '_');
-            const tag = options.getString('tag').replace('#', "");
+            const tag = options.getString('tag').replace('#', '');
             await getUserData(username, tag, interaction);
-
         } else {
-            interaction.reply(`Unknown command ${commandName}`)
+            await interaction.editReply(`Unknown command ${commandName}`);
+        }
+    } catch (error) {
+        console.error(error);
+        if (interaction.deferred || interaction.replied) {
+            await interaction.editReply(`Error handling command: ${error.message}`);
+        } else {
+            await interaction.reply(`Error handling command: ${error.message}`);
         }
     }
-)
+});
 
 
 async function getUserData(name, tag, interaction) {
     try {
-        let response = await fetch(`https://api.henrikdev.xyz/valorant/v2/mmr/na/${name}/${tag}`, {
+        const response = await fetch(`https://api.henrikdev.xyz/valorant/v2/mmr/na/${name}/${tag}`, {
             method: 'GET',
             headers: {
                 'Authorization': `${process.env.API_KEY}`
@@ -48,17 +57,17 @@ async function getUserData(name, tag, interaction) {
             throw new Error(`Error fetching data: ${response.statusText}`);
         }
 
-        let data = await response.json();
+        const data = await response.json();
 
-        let username = data.data.name;
-        let rank = data.data.current_data.currenttierpatched.toUpperCase();
-        let current_rr = data.data.current_data.ranking_in_tier;
-        let image = data.data.current_data.images.small;
-        let peakTier = data.data.highest_rank.tier;
-        let peakSeason = data.data.highest_rank.season.toUpperCase();
-        let userTag = data.data.tag
+        const username = data.data.name;
+        const rank = data.data.current_data.currenttierpatched.toUpperCase();
+        const current_rr = data.data.current_data.ranking_in_tier;
+        const image = data.data.current_data.images.small;
+        const peakTier = data.data.highest_rank.tier;
+        const peakSeason = data.data.highest_rank.season.toUpperCase();
+        const userTag = data.data.tag
 
-        let peakRank = await getRank(peakTier)
+        const peakRank = await getRank(peakTier)
         const currentRatingQuotes = [`You're a winner in my heart ${username}!`, 'Oof rough season mah nigga.', 'Getting boosted huh?', `Pick it up you're drooling on yourself.`]
         const peakRatingQuotes = [`Op crutch??`, 'Boosted Monkey!', `You hit unc status you've PEAKED!`, 'Nothing but a memory now...']
 
@@ -105,10 +114,10 @@ async function getUserData(name, tag, interaction) {
             timestamp: new Date()
         };
 
-        await interaction.reply({ embeds: [embed1, embed2] });
+        await interaction.editReply({ embeds: [embed1, embed2] });
     } catch (error) {
         console.error(error);
-        await interaction.reply(`Error fetching user data: ${error.message}`);
+        await interaction.editReply(`Error fetching user data: ${error.message}`);
     }
 
 }
@@ -127,5 +136,9 @@ function getRandomQuote(arr) {
     const randomIndex = Math.floor(Math.random() * arr.length);
     return arr[randomIndex]
 }
+
+process.on('unhandledRejection', error => {
+    console.error('Unhandled promise rejection:', error);
+});
 
 client.login(process.env.DISCORD_TOKEN);
