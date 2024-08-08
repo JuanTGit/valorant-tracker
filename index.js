@@ -59,7 +59,7 @@ async function getUserData(name, tag, interaction) {
         let userTag = data.data.tag
 
         let peakRank = await getRank(peakTier)
-        const currentRatingQuotes = [`You're a winner in my heart ${username}!`, 'Oof rough season mah guy.', 'Getting boosted huh?', `Pick it up you're drooling on yourself.`]
+        const currentRatingQuotes = [`You're a winner in my heart ${username}!`, 'Oof rough season mah nigga.', 'Getting boosted huh?', `Pick it up you're drooling on yourself.`]
         const peakRatingQuotes = [`Op crutch??`, 'Boosted Monkey!', `You hit unc status you've PEAKED!`, 'Nothing but a memory now...']
 
         const embed1 = {
