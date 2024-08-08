@@ -69,7 +69,7 @@ async function getUserData(name, tag, message) {
         let rank = data.data.current_data.currenttierpatched;
         let current_rr = data.data.current_data.ranking_in_tier;
 
-        message.channel.send(`${username}\n${rank}\nRR: ${current_rr}/100`);
+        message.channel.send(`Nigga ${username}\n${rank}\nRR: ${current_rr}/100`);
     } catch (error) {
         console.error(error);
         message.channel.send(`Error fetching user data: ${error.message}`);
