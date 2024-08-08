@@ -74,7 +74,7 @@ async function getUserData(name, tag, interaction) {
         const embed1 = {
             color: 0xff0000,
             title: `|   Current Rating for ${username}#${userTag}   |`,
-            description: getRandomQuote(currentRatingQuotes),
+            description: (peakRank[1] === rank ? `YOU'RE PEAKING OUT OF YOUR MIND RN!!` : getRandomQuote(currentRatingQuotes)),
             image: {
                 url: image
             },
@@ -126,7 +126,7 @@ async function getRank(tier) {
     const image = await fetch(`https://valorant-api.com/v1/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04`)
 	let data = await image.json()
 
-	let peakRank = data.data.tiers[tier].smallIcon;
+	let peakRank = data.data.tiers[tier].largeIcon;
     let tierName = data.data.tiers[tier].tierName;
 
     return [peakRank, tierName]
