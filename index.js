@@ -68,8 +68,18 @@ async function getUserData(name, tag, message) {
         let username = data.data.name;
         let rank = data.data.current_data.currenttierpatched;
         let current_rr = data.data.current_data.ranking_in_tier;
+        let image = data.data.current_data.images.small;
 
-        message.channel.send(`Nigga ${username}\n${rank}\nRR: ${current_rr}/100`);
+        const embed = {
+            color: 0x0099ff, // Embed color
+            title: `Valorant Profile for ${username}`,
+            image: {
+                url: image
+            },
+            description: `Status: ${rank}\nRR: ${current_rr}`,
+        };
+
+        message.channel.send({ embeds: [embed] });
     } catch (error) {
         console.error(error);
         message.channel.send(`Error fetching user data: ${error.message}`);
