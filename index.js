@@ -29,7 +29,7 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('messageCreate', message => {
+client.on('messageCreate', async (message) => {
 
     if (message.author.bot) return;
 
@@ -42,7 +42,12 @@ client.on('messageCreate', message => {
         if (command === 'track') {
             const username = args[0];
             const tag = args[1]
-            getUserData(username, tag, message);
+            await getUserData(username, tag, message);
+			try {
+				await message.delete();
+			} catch (error) {
+				console.error('Failed to delete message:', error);
+			}
         } else {
             message.channel.send(`Unknown command ${command}`)
         }
