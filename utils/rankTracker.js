@@ -1,4 +1,4 @@
-import { API_KEY, CHANNEL_ID } from "../config.js";
+import { API_KEY } from "../config.js";
 import fetch from "node-fetch"
 import { getRank } from "./getRank.js";
 import pool from "../dbConfig.js"
