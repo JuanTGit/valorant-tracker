@@ -75,20 +75,22 @@ export default pool;
 // addConstraint();
 
 
-// async function checkTable() {
-// 	try {
-// 	  const client = await pool.connect();
-// 	  const res = await client.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';");
-// 	  console.log('Tables:', res.rows);
+async function checkTable() {
+	try {
+	  const client = await pool.connect();
+	  const res = await client.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';");
+	  console.log('Tables:', res.rows);
   
-// 	  // Optionally, check the structure of a specific table
-// 	  const tableStructure = await client.query("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'trackers';");
-// 	  console.log('Table Structure:', tableStructure.rows);
+	  // Optionally, check the structure of a specific table
+	  const tableStructure = await client.query("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'trackers';");
+	  console.log('Table Structure:', tableStructure.rows);
+	  const tableStructure2 = await client.query("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'channel_settings';");
+	  console.log('Table Structure:', tableStructure2.rows);
   
-// 	  client.release();
-// 	} catch (error) {
-// 	  console.error('Error checking table:', error);
-// 	}
-//   }
+	  client.release();
+	} catch (error) {
+	  console.error('Error checking table:', error);
+	}
+  }
   
-// checkTable();
+checkTable();

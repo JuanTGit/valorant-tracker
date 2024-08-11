@@ -1,4 +1,5 @@
 import { getUserData } from '../utils/getUserData.js'
+import pool from '../dbConfig.js';
 import { handleAddTracker, handleRemoveTracker } from './handleTrackingCommands.js';
 
 export async function handleInteraction(interaction){
@@ -30,6 +31,7 @@ export async function handleInteraction(interaction){
         } else if (commandName === 'add_announcements') {
             const channelId = interaction.channelId;
             const serverId = interaction.guildId;
+            console.log(channelId, serverId)
             try {
                 const query = `
                     INSERT INTO channel_settings (server_id, channel_id)
