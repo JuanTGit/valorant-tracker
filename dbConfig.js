@@ -7,6 +7,9 @@ const { Pool } = pkg;
 
 const pool = new Pool({
     connectionString: process.env.HEROKU_POSTGRESQL_AMBER_URL,
+    ssl: {
+        rejectUnauthorized: false,
+    },
 });
 
 export default pool;
@@ -14,13 +17,15 @@ export default pool;
 // async function createTrackersTable() {
 // 	try {
 // 	  const query = `
-// 		CREATE TABLE IF NOT EXISTS trackers (
-// 		  username VARCHAR(255) NOT NULL,
-// 		  tag VARCHAR(255) NOT NULL,
-// 		  current_rank VARCHAR(255),
-// 		  PRIMARY KEY (username, tag)
-// 		);
-// 	  `;
+// 		CREATE TABLE trackers (
+//         server_id VARCHAR(255) NOT NULL,
+//         username VARCHAR(255) NOT NULL,
+//         tag VARCHAR(255) NOT NULL,
+//         current_rank VARCHAR(255),
+//         agent VARCHAR(255) NOT NULL,
+//         PRIMARY KEY (server_id, username, tag)
+//         );
+// 	`;
   
 // 	  const res = await pool.query(query);
 // 	  console.log("Table 'trackers' created successfully");
