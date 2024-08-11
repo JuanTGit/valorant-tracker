@@ -6,8 +6,7 @@ dotenv.config();
 const { Pool } = pkg;
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: false
+    connectionString: process.env.HEROKU_POSTGRESQL_AMBER_URL,
 });
 
 export default pool;
