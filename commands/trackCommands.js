@@ -32,7 +32,7 @@ export async function handleInteraction(interaction){
             const serverId = interaction.guildId;
             try {
                 const query = `
-                    INSERT INTO channel_announcements (server_id, channel_id)
+                    INSERT INTO channel_settings (server_id, channel_id)
                     VALUES ($1, $2)
                     ON CONFLICT (server_id)
                     DO UPDATE SET channel_id = EXCLUDED.channel_id;
@@ -48,7 +48,7 @@ export async function handleInteraction(interaction){
         } else if (commandName === 'remove_announcements') {
             const serverId = interaction.guildId;
             try {
-                const query = `DELETE FROM channel_announcements WHERE server_id = $1`
+                const query = `DELETE FROM channel_settings WHERE server_id = $1`
                 await pool.query(query, [serverId])
 
 

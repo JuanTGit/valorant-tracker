@@ -6,7 +6,7 @@ import { EmbedBuilder } from "discord.js";
 
 async function getChannelId(serverId) {
 	try{
-		const query = 'SELECT channel_id from channel_announcements WHERE server_id = $1';
+		const query = 'SELECT channel_id from channel_settings WHERE server_id = $1';
 		const result = await pool(query, [serverId])
 		return result.rows.length > 0 ? result.rows[0].channel_id : null;
 	} catch (error) {

@@ -2,9 +2,11 @@ import pool from './dbConfig.js'
 
 async function checkTableData() {
     try {
-        const result = await pool.query('SELECT * FROM trackers');
+        const trackerTable = await pool.query('SELECT * FROM trackers');
+        const channelTable= await pool.query('SELECT * FROM channel_settings');
 
-        console.log('Table Data:', result.rows);
+        console.log('Tracking Data:', trackerTable.rows);
+        console.log('Channel Data:', channelTable.rows)
     } catch (error) {
         console.error('Error fetching data:', error);
     } finally {
