@@ -1,7 +1,7 @@
 import { API_KEY } from "../config.js";
 import fetch from "node-fetch"
 import { getRank } from "./getRank.js";
-import { pool } from "../dbConfig.js"
+import pool from "../dbConfig.js"
 import { EmbedBuilder } from "discord.js";
 
 export async function pollRankUpdates() {
