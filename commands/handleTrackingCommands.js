@@ -1,12 +1,12 @@
 import { fetchPlayerRank } from '../utils/rankTracker.js'
-import { pool } from '../dbConfig.js'
+import pool from '../dbConfig.js'
 
 export async function handleAddTracker(username, tag, interaction) {
     try {
 		const serverId = interaction.guildId;
 		const key = `${username}#${tag}`
 		const rank = await fetchPlayerRank(username, tag);
-		
+
         const query = `
             INSERT INTO trackers (server_id, username, tag, current_rank)
             VALUES ($1, $2, $3, $4)
