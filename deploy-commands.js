@@ -58,6 +58,14 @@ const commands = [
 				required: true,
 			},
 		],
+	},
+	{
+		name: 'add_announcements',
+		description: 'This will add or update channel announements of tracked users',
+	},
+	{
+		name: 'remove_announcements',
+		description: 'This will remove announements of tracked users from the server use /add_announcements in a channel to update where announcements are set'
 	}
 ];
 

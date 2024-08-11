@@ -14,6 +14,26 @@ const pool = new Pool({
 
 export default pool;
 
+async function createChannelTable() {
+    try {
+        const query = `
+            CREATE TABLE channel_settings (
+            server_id VARCHAR(255) PRIMARY KEY,
+            channel_id VARCHAR(255) NOT NULL
+        );
+        `;
+
+        const res = await pool.query(query);
+        console.log('Channel settings table added successfully!')
+    } catch (err) {
+        console.log('error creating table', err);
+    } finally {
+        pool.end();
+    }
+}
+
+createChannelTable();
+
 // async function createTrackersTable() {
 // 	try {
 // 	  const query = `

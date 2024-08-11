@@ -4,8 +4,18 @@ import { getRank } from "./getRank.js";
 import pool from "../dbConfig.js"
 import { EmbedBuilder } from "discord.js";
 
+async function getChannelId(serverId) {
+	try{
+		const query = 'SELECT channel_id from channel_announcements WHERE server_id = $1';
+		const result = await pool(query, [serverId])
+		return result.rows.length > 0 ? result.rows[0].channel_id : null;
+	} catch (error) {
+		console.error('Error fetching channel ID', error);
+		return null;
+	}
+}
+
 export async function pollRankUpdates() {
-	const channelId = `${CHANNEL_ID}`
     try {
         const result = await pool.query('SELECT username, tag, current_rank FROM trackers');
 
@@ -30,9 +40,16 @@ export async function pollRankUpdates() {
 					)
 					.setTimestamp();
 
-				const channel = await client.channels.fetch(channelId);
-				if (channel) {
-					await channel.send({ embeds: [rankUpEmbed] });
+				const channelId = await getChannelId(player.server_id)
+				if (channelId) {
+					const channel = await client.channels.fetch(channelId)
+					if (channel){
+						await channel.send({ embeds: [rankUpEmbed] });
+					} else {
+						console.error('Channel not found.')
+					}
+				} else {
+					console.error('Channel ID not set for this server.')
 				}
 
                 await pool.query('UPDATE trackers SET current_rank = $1 WHERE username = $2 AND tag = $3', [newRank, player.username, player.tag]);
@@ -55,9 +72,16 @@ export async function pollRankUpdates() {
 					.setImage('https://i.imgur.com/wvhmPOd.png')
 					.setTimestamp();
 
-				const channel = await client.channels.fetch(channelId);
-				if (channel) {
-					await channel.send({ embeds: [deRankEmbed] });
+				const channelId = await getChannelId(player.server_id)
+				if (channelId) {
+					const channel = await client.channels.fetch(channelId)
+					if (channel){
+						await channel.send({ embeds: [deRankEmbed] });
+					} else {
+						console.error('Channel not found.')
+					}
+				} else {
+					console.error('Channel ID not set for this server.')
 				}
 
                 await pool.query('UPDATE trackers SET current_rank = $1 WHERE username = $2 AND tag = $3', [newRank, player.username, player.tag]);
