@@ -27,7 +27,7 @@ export async function handleInteraction(interaction){
             const tag = options.getString('tag').replace('#', '');
             await handleRemoveTracker(username, tag, interaction)
 
-        } else if (commandName === 'add_announncements') {
+        } else if (commandName === 'add_announcements') {
             const channelId = interaction.channelId;
             const serverId = interaction.guildId;
             try {
