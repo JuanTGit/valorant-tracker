@@ -7,7 +7,6 @@ import { API_KEY } from '../config.js';
 
 export async function getUserData(name, tag, interaction) {
     try {
-        console.log('making interaction')
         const response = await fetch(`https://api.henrikdev.xyz/valorant/v3/mmr/na/pc/${name}/${tag}`, {
             method: 'GET',
             headers: {

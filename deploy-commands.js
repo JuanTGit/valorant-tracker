@@ -23,6 +23,42 @@ const commands = [
 			},
 		],
 	},
+	{
+		name: 'add_tracker',
+		description: 'Add a player to the tracking list for regular rank updates.',
+		options: [
+			{
+				name: 'username',
+				type: 3,
+				description: 'The username of the Valorant player',
+				required: true,
+			},
+			{
+				name: 'tag',
+				type: 3,
+				description: 'The tag of the Valorant player',
+				required: true,
+			},
+		],
+	},
+	{
+		name: 'remove_tracker',
+		description: 'Remove a player from the tracking list and stop rank updates.',
+		options: [
+			{
+				name: 'username',
+				type: 3,
+				description: 'The username of the Valorant player',
+				required: true,
+			},
+			{
+				name: 'tag',
+				type: 3,
+				description: 'The tag of the Valorant player',
+				required: true,
+			},
+		],
+	}
 ];
 
 const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
