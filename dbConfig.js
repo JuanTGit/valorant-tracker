@@ -33,39 +33,37 @@ export default pool;
   
 // createTrackersTable();
 
-// async function addServerIdColumn() {
+// async function addConstraint() {
 //     try {
 //         const query = `
 //             ALTER TABLE trackers
-//             ADD COLUMN IF NOT EXISTS server_id VARCHAR(255) NOT NULL;
+//             ADD CONSTRAINT unique_tracker UNIQUE (server_id, username, tag);
 //         `;
 
 //         await pool.query(query);
-//         console.log("Column 'server_id' added to 'trackers' table successfully");
+//         console.log("Constraints added to 'trackers' table successfully");
 //     } catch (err) {
-//         console.error("Error adding column:", err);
-//     } finally {
-//         await pool.end();
+//         console.error("Error adding constraint:", err);
 //     }
 // }
 
-// addServerIdColumn();
+// addConstraint();
 
 
-// async function checkTable() {
-// 	try {
-// 	  const client = await pool.connect();
-// 	  const res = await client.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';");
-// 	  console.log('Tables:', res.rows);
+async function checkTable() {
+	try {
+	  const client = await pool.connect();
+	  const res = await client.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';");
+	  console.log('Tables:', res.rows);
   
-// 	  // Optionally, check the structure of a specific table
-// 	  const tableStructure = await client.query("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'trackers';");
-// 	  console.log('Table Structure:', tableStructure.rows);
+	  // Optionally, check the structure of a specific table
+	  const tableStructure = await client.query("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'trackers';");
+	  console.log('Table Structure:', tableStructure.rows);
   
-// 	  client.release();
-// 	} catch (error) {
-// 	  console.error('Error checking table:', error);
-// 	}
-//   }
+	  client.release();
+	} catch (error) {
+	  console.error('Error checking table:', error);
+	}
+  }
   
-// checkTable();
+checkTable();

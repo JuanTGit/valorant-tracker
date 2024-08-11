@@ -32,7 +32,7 @@ export async function handleInteraction(interaction){
         }
     } catch (error) {
         console.error('Error handling interaction:', error);
-        
+
         if (interaction.deferred || interaction.replied) {
             await interaction.editReply(`Error handling command: ${error.message}`);
         } else {

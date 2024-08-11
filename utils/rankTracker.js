@@ -1,11 +1,11 @@
-import { API_KEY } from "../config.js";
+import { API_KEY, CHANNEL_ID } from "../config.js";
 import fetch from "node-fetch"
 import { getRank } from "./getRank.js";
 import pool from "../dbConfig.js"
 import { EmbedBuilder } from "discord.js";
 
 export async function pollRankUpdates() {
-	const channelId = '1270951455385456670'
+	const channelId = `${CHANNEL_ID}`
     try {
         const result = await pool.query('SELECT username, tag, current_rank FROM trackers');
 
