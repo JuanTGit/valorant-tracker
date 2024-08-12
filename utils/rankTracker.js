@@ -87,7 +87,7 @@ export async function pollRankUpdates() {
 
                 await pool.query('UPDATE trackers SET current_rank = $1 WHERE username = $2 AND tag = $3', [newRank, player.username, player.tag]);
             } else {
-				console.log(`No data found for this user`)
+				continue;
 			}
         }
     } catch (error) {

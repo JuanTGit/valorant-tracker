@@ -1,5 +1,6 @@
 import { fetchPlayerRank } from '../utils/rankTracker.js';
 import pool from '../dbConfig.js';
+import { EmbedBuilder } from 'discord.js';
 
 export async function handleAddTracker(username, tag, interaction) {
     try {
@@ -25,7 +26,12 @@ export async function handleAddTracker(username, tag, interaction) {
         `;
         await pool.query(query, [serverId, username.toLowerCase(), tag.toLowerCase(), rank, key]);
 
-        await interaction.editReply(`${key} added to tracking list.`);
+        const embed = new EmbedBuilder()
+            .setColor(0x0000FF)
+            .setTitle(`${key} added to tracking list.`)
+
+
+        await interaction.editReply({ embeds: [embed] });
 
     } catch (error) {
         console.error('Error adding tracker:', error);
@@ -44,9 +50,16 @@ export async function handleRemoveTracker(username, tag, interaction) {
             [serverId, username.toLowerCase(), tag.toLowerCase()]
         );
 
+        const embed = new EmbedBuilder()
+        .setColor(0x0000FF)
+        .setTitle(`${key} removed from tracking list.`)
+
+
+    await interaction.editReply({ embeds: [embed] });
+
         // Send a reply if not already replied
         if (result.rowCount > 0) {
-            await interaction.editReply(`${key} removed from tracking list.`);
+            await interaction.editReply({ embeds: [embed]});
         } else {
             await interaction.editReply(`${key} is not found in the tracking list.`);
         }
