@@ -21,6 +21,7 @@ export async function pollRankUpdates() {
 
         for (const player of result.rows) {
             const newRank = await fetchPlayerRank(player.username, player.tag);
+			console.log(`${player.username} is sitting in ${newRank}`)
 
             if (newRank > player.current_rank) {
                 const rankVisualInfo = await getRank(player.current_rank, newRank);
@@ -85,7 +86,9 @@ export async function pollRankUpdates() {
 				}
 
                 await pool.query('UPDATE trackers SET current_rank = $1 WHERE username = $2 AND tag = $3', [newRank, player.username, player.tag]);
-            }
+            } else {
+				console.log(`No data found for this user`)
+			}
         }
     } catch (error) {
         console.error('Error polling rank updates:', error);
