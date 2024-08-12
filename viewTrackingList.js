@@ -25,6 +25,3 @@ export async function viewTrackingList(server_id, interaction){
         console.error('Error fetching data:', error);
 	}
 }
-
-
-viewTrackingList(server_id, interaction)
