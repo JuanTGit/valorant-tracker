@@ -21,6 +21,9 @@ export async function pollRankUpdates() {
 
         for (const player of result.rows) {
             const newRank = await fetchPlayerRank(player.username, player.tag);
+			console.log(`${player.username} is sitting in ${newRank}`);
+			const { mapName, agent, kills, deaths, headshotPercent } = await getLastMatch(player.username, player.tag)
+			console.log(`Map: ${mapName} Agent: ${agent}, K: ${kills} D: ${deaths} Headshot %: ${headshotPercent}%`)
 
             if (newRank > player.current_rank) {
                 const rankVisualInfo = await getRank(player.current_rank, newRank);
