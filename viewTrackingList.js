@@ -10,7 +10,9 @@ export async function viewTrackingList(server_id, interaction){
 		const users = []
 		const embed = new EmbedBuilder()
 			.setColor(0xff0000)
-			.setTitle(users)
+			.addFields(
+				{ name: 'Tracked Users', value: users, inline: true }
+			)
 
 		for (let i=0; i < query.rows.length; i++){
 			users.push(query.rows[i].agent)
