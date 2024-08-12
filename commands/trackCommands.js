@@ -2,6 +2,7 @@ import { getUserData } from '../utils/getUserData.js'
 import pool from '../dbConfig.js';
 import { handleAddTracker, handleRemoveTracker } from './handleTrackingCommands.js';
 import client from '../index.js';
+import { viewTrackingList } from '../viewTrackingList.js';
 
 export async function handleInteraction(interaction){
 	if (!interaction.isCommand()) return;
@@ -61,6 +62,9 @@ export async function handleInteraction(interaction){
                 console.error('Error removing announcements:', error)
                 await interaction.editReply('Error removing announcements: Either no channel has been set or an internal error has occurred.')
             }
+        } else if (commandName === 'view_list') {
+            const serverId = interaction.guildId;
+            await viewTrackingList(serverId, interaction);
         } else {
             await interaction.editReply(`Unknown command ${commandName}`);
         }

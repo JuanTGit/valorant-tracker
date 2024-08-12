@@ -66,6 +66,10 @@ const commands = [
 	{
 		name: 'remove_announcements',
 		description: 'Remove server announcements. alternatively use /add_announcements anywhere to update channel.'
+	},
+	{
+		name: 'view_list',
+		description: 'View a list of all users tracked in this server.'
 	}
 ];
 

@@ -15,7 +15,8 @@ export async function handleAddTracker(username, tag, interaction) {
         const checkResults = await pool.query(checkQuery, [serverId, key]);
 
         if (checkResults > 0) {
-            await interaction.editReply(`${key} is already being tracked.`)
+            const successReply = await interaction.editReply(`${key} is already being tracked.`)
+
         }
         
         const query = `
