@@ -11,7 +11,7 @@ export async function viewTrackingList(server_id, interaction){
 		const embed = new EmbedBuilder()
 			.setColor(0xff0000)
 			.addFields(
-				{ name: 'Tracked Users', value: users, inline: true }
+				{ name: 'Tracked Users', value: users.join(', '), inline: true }
 			)
 
 		for (let i=0; i < query.rows.length; i++){
@@ -23,8 +23,5 @@ export async function viewTrackingList(server_id, interaction){
 
 	} catch (error) {
         console.error('Error fetching data:', error);
-    } finally {
-        await pool.end();
-    }
-
+	}
 }
