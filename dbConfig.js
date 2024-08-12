@@ -7,6 +7,9 @@ const { Pool } = pkg;
 
 const pool = new Pool({
     connectionString: process.env.HEROKU_POSTGRESQL_AMBER_URL,
+    ssl: {
+        rejectUnauthorized: true
+    },
 });
 
 export default pool;
