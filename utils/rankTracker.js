@@ -27,9 +27,9 @@ export async function pollRankUpdates() {
 				const { mapName, agent, kills, deaths, headshotPercent } = await getLastMatch(player.username.replace('_', ' '), player.tag)
 
                 const rankUpEmbed = new EmbedBuilder()
-					.setColor(0x00ff00)
+					.setColor(0x5b96a8)
 					.setTitle(`|   △△△ ${player.username.replace('_', ' ')}#${player.tag} △△△   |`)
-					.setDescription(`congratulations on ranking up to ${rankVisualInfo[2]}!`)
+					.setDescription(`Rank up to ${rankVisualInfo[2]}! Light Work 🥱`)
 					.setThumbnail(rankVisualInfo[3])
 					.setImage('https://i.imgur.com/wvhmPOd.png')
 					.addFields(
@@ -59,9 +59,9 @@ export async function pollRankUpdates() {
                 const { mapName, agent, kills, deaths, headshotPercent } = await getLastMatch(player.username.replace('_', ' '), player.tag)
 
 				const deRankEmbed = new EmbedBuilder()
-					.setColor(0xff0000)
+					.setColor(0xe9616b)
 					.setTitle(`|   ▽▽▽ ${player.username.replace('_', ' ')}#${player.tag} ▽▽▽   |`)
-					.setDescription(`Sorry these kids put you back to ${rankVisualInfo[0]}!`)
+					.setDescription(`Back to ${rankVisualInfo[0]}! 😭`)
 					.setThumbnail(rankVisualInfo[1])
 					.addFields(
 						{ name: 'Map', value: mapName, inline: true },
