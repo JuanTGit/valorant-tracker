@@ -7,9 +7,8 @@ import client from "../index.js";
 
 async function getChannelId(serverId) {
 	try{
-		const query = 'SELECT channel_id from channel_settings WHERE server_id = $1';
-		const result = await pool.query(query, [serverId])
-		return result.rows.length > 0 ? result.rows[0].channel_id : null;
+		const query = await pool.query('SELECT channel_id from channel_settings WHERE server_id = $1', [serverId]);
+		return query.rows.length > 0 ? query.rows[0].channel_id : null;
 	} catch (error) {
 		console.error('Error fetching channel ID', error);
 		return null;
@@ -18,11 +17,10 @@ async function getChannelId(serverId) {
 
 export async function pollRankUpdates() {
     try {
-        const result = await pool.query('SELECT username, tag, current_rank FROM trackers');
+        const result = await pool.query('SELECT username, tag, current_rank, server_id FROM trackers');
 
         for (const player of result.rows) {
             const newRank = await fetchPlayerRank(player.username, player.tag);
-			console.log(player.username)
 
             if (newRank > player.current_rank) {
                 const rankVisualInfo = await getRank(player.current_rank, newRank);
@@ -30,7 +28,7 @@ export async function pollRankUpdates() {
 
                 const rankUpEmbed = new EmbedBuilder()
 					.setColor(0x00ff00)
-					.setTitle(`|   △△△ ${player.username}#${player.tag} △△△   |`)
+					.setTitle(`|   △△△ ${player.username.replace('_', ' ')}#${player.tag} △△△   |`)
 					.setDescription(`congratulations on ranking up to ${rankVisualInfo[2]}!`)
 					.setThumbnail(rankVisualInfo[3])
 					.setImage('https://i.imgur.com/wvhmPOd.png')
@@ -58,11 +56,11 @@ export async function pollRankUpdates() {
 
             } else if (newRank < player.current_rank) {
                 const rankVisualInfo = await getRank(player.current_rank, newRank);
-                const { mapName, agent, kills, deaths, headshotPercent } = await getLastMatch(player.username, player.tag)
+                const { mapName, agent, kills, deaths, headshotPercent } = await getLastMatch(player.username.replace('_', ' '), player.tag)
 
 				const deRankEmbed = new EmbedBuilder()
 					.setColor(0xff0000)
-					.setTitle(`|   ▽▽▽ ${player.username}#${player.tag} ▽▽▽   |`)
+					.setTitle(`|   ▽▽▽ ${player.username.replace('_', ' ')}#${player.tag} ▽▽▽   |`)
 					.setDescription(`Sorry these kids put you back to ${rankVisualInfo[0]}!`)
 					.setThumbnail(rankVisualInfo[1])
 					.addFields(
@@ -85,9 +83,9 @@ export async function pollRankUpdates() {
 				} else {
 					console.error('Channel ID not set for this server.')
 				}
+				await pool.query('UPDATE trackers SET current_rank = $1 WHERE username = $2 AND tag = $3', [newRank, player.username, player.tag]);
 
-                await pool.query('UPDATE trackers SET current_rank = $1 WHERE username = $2 AND tag = $3', [newRank, player.username, player.tag]);
-            } else {
+			} else {
 				continue;
 			}
         }
