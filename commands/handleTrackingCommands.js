@@ -14,7 +14,7 @@ export async function handleAddTracker(username, tag, interaction) {
         
         const checkResults = await pool.query(checkQuery, [serverId, key]);
 
-        if (checkResults > 0) {
+        if (checkResults.rowCount > 0) {
             const embed = new EmbedBuilder()
                 .setColor(0x5865F2)
                 .setTitle(`${key} already being tracked.`)
@@ -84,10 +84,6 @@ export async function handleRemoveTracker(username, tag, interaction) {
 				interaction.deleteReply()
 			}, 10000);
         }
-
-        setTimeout(() => {
-            interaction.deleteReply()
-        }, 10000)
     } catch (error) {
         console.error('Error removing tracker:', error);
         await interaction.editReply(`Error removing tracker: ${error.message}`);
