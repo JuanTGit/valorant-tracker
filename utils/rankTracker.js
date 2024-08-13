@@ -3,6 +3,7 @@ import fetch from "node-fetch"
 import { getRank } from "./getRank.js";
 import pool from "../dbConfig.js"
 import { EmbedBuilder } from "discord.js";
+import client from "../index.js";
 
 async function getChannelId(serverId) {
 	try{
