@@ -1,14 +1,14 @@
 import { API_KEY } from "../config.js";
 import fetch from "node-fetch"
 import { getRank } from "./getRank.js";
-import pool from "../dbConfig.js"
+import pool from "../dbConfig.js";
 import { EmbedBuilder } from "discord.js";
 import client from "../index.js";
 
 async function getChannelId(serverId) {
 	try{
 		const query = 'SELECT channel_id from channel_settings WHERE server_id = $1';
-		const result = await pool(query, [serverId])
+		const result = await pool.query(query, [serverId])
 		return result.rows.length > 0 ? result.rows[0].channel_id : null;
 	} catch (error) {
 		console.error('Error fetching channel ID', error);
