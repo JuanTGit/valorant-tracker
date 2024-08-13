@@ -35,7 +35,7 @@ export async function pollRankUpdates() {
 					.addFields(
 						{ name: 'Map', value: mapName, inline: true },
 						{ name: 'Agent', value: agent, inline: true },
-						{ name: 'K/D', value: `K: ${String(kills)} D: ${String(deaths)}`, inline: true },
+						{ name: 'K/D', value: `Kills: ${String(kills)} \nDeaths: ${String(deaths)}`, inline: true },
 						{ name: 'Headshot %', value: `${String(headshotPercent)}`, inline: true },
 					)
 					.setTimestamp();
@@ -66,7 +66,7 @@ export async function pollRankUpdates() {
 					.addFields(
 						{ name: 'Map', value: mapName, inline: true },
 						{ name: 'Agent', value: agent, inline: true },
-						{ name: 'K/D', value: `K: ${String(kills)} D: ${String(deaths)}`, inline: true },
+						{ name: 'K/D', value: `Kills: ${String(kills)} \nDeaths: ${String(deaths)}`, inline: true },
 						{ name: 'Headshot %', value: `${String(headshotPercent)}`, inline: true },
 					)
 					.setImage('https://i.imgur.com/wvhmPOd.png')
