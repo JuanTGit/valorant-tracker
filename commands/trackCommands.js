@@ -44,9 +44,15 @@ export async function handleInteraction(interaction){
                 await pool.query(query, [serverId, channelId]);
 
                 await interaction.editReply(`Channel ID ${channel.name} set for announcements.`);
+                setTimeout(() => {
+                    interaction.deleteReply()
+                }, 10000);
             } catch (error) {
                 console.error('Error setting channel ID:', error);
                 await interaction.editReply('Error setting channel ID.');
+                setTimeout(() => {
+                    interaction.deleteReply()
+                }, 10000);
             }
 
         } else if (commandName === 'remove_announcements') {
@@ -58,23 +64,38 @@ export async function handleInteraction(interaction){
 
 
                 await interaction.editReply(`Announcements removed from ${server.name} successfully!`)
+                setTimeout(() => {
+                    interaction.deleteReply()
+                }, 10000);
             } catch (error) {
                 console.error('Error removing announcements:', error)
                 await interaction.editReply('Error removing announcements: Either no channel has been set or an internal error has occurred.')
+                setTimeout(() => {
+                    interaction.deleteReply()
+                }, 10000);
             }
         } else if (commandName === 'view_list') {
             const serverId = interaction.guildId;
             await viewTrackingList(serverId, interaction);
         } else {
             await interaction.editReply(`Unknown command ${commandName}`);
+            setTimeout(() => {
+				interaction.deleteReply()
+			}, 10000);
         }
     } catch (error) {
         console.error('Error handling interaction:', error);
 
         if (interaction.deferred || interaction.replied) {
             await interaction.editReply(`Error handling command: ${error.message}`);
+            setTimeout(() => {
+				interaction.deleteReply()
+			}, 10000);
         } else {
             await interaction.reply(`Error handling command: ${error.message}`);
+            setTimeout(() => {
+				interaction.deleteReply()
+			}, 10000);
         }
     }
 }

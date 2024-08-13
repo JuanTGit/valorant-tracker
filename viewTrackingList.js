@@ -11,20 +11,29 @@ export async function viewTrackingList(server_id, interaction){
 
 		if (users.length === 0) {
 			await interaction.editReply('No tracked users found.')
+			setTimeout(() => {
+				interaction.deleteReply()
+			}, 10000);
 			return;
 		}
 		
 		const embed = new EmbedBuilder()
-			.setColor(0xff0000)
+			.setColor(0xf0f71e)
 			.addFields(
 				{ name: 'Tracked Users', value: users.join('\n'), inline: true }
 			)
 
-		console.log(users)
 		await interaction.editReply({ embeds: [embed]})
+
+		setTimeout(() => {
+            interaction.deleteReply()
+        }, 60000);
 
 	} catch (error) {
 		console.error('Error fetching data:', error);
 		await interaction.editReply(`Error fetching data: ${error.message}`);
+		setTimeout(() => {
+            interaction.deleteReply()
+        }, 10000);
 	}
 }
