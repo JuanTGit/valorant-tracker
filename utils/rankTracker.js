@@ -29,8 +29,8 @@ export async function pollRankUpdates() {
                 const rankUpEmbed = new EmbedBuilder()
 					.setColor(0x5b96a8)
 					.setTitle(`|   △△△ ${player.username.replace('_', ' ')}#${player.tag} △△△   |`)
-					.setDescription(`Rank up to ${rankVisualInfo[2]}! Light Work 🥱`)
-					.setThumbnail(rankVisualInfo[3])
+					.setDescription(`Rank up to ${rankVisualInfo[0]}! Light Work 🥱`)
+					.setThumbnail(rankVisualInfo[1])
 					.setImage('https://i.imgur.com/wvhmPOd.png')
 					.addFields(
 						{ name: 'Map', value: mapName, inline: true },
