@@ -1,38 +1,45 @@
-Sure! Here it is in a copiable format:
+# Valorant Tracker Discord Bot
 
----
-
-# Valorant Tracker Bot
-
-Welcome to the Valorant Tracker Bot project! This bot is designed to provide Valorant players with their in-game statistics directly within Discord. Built with Node.js and JavaScript, the bot leverages the power of Heroku for deployment.
+![License](https://img.shields.io/github/license/JuanTGit/valorant-tracker)  
+A Discord bot that tracks and displays Valorant player stats using Riot Games' API.
 
 ## Table of Contents
+
+- [About the Project](#about-the-project)
 - [Features](#features)
 - [Getting Started](#getting-started)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Configuration](#configuration)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
 - [Usage](#usage)
+- [Commands](#commands)
+- [Database](#database)
 - [Deployment](#deployment)
+- [Built With](#built-with)
 - [Contributing](#contributing)
-- [License](#license)
+- [Contact](#contact)
+
+## About the Project
+
+The **Valorant Tracker** Discord bot allows users to track and retrieve statistics for Valorant players. It leverages the Riot Games API to fetch player details, such as rank, match history, and performance, and posts them in Discord channels. The bot supports multi-server usage, ensuring player data is specific to each server.
 
 ## Features
-- Fetch and display player statistics from the Valorant API.
-- Integrates seamlessly with Discord to provide real-time data.
-- Simple commands to retrieve various stats.
+
+- Track and display Valorant player stats.
+- Add and remove players from tracking lists.
+- Fetch real-time rank updates for tracked players.
+- Server-specific tracking for Discord guilds.
+- Database support using PostgreSQL.
 
 ## Getting Started
 
-To get a local copy up and running, follow these simple steps.
+To get a local copy of this project up and running, follow these steps.
 
 ### Prerequisites
 
-Make sure you have the following installed:
-
-- [Node.js](https://nodejs.org/en/)
-- [npm](https://www.npmjs.com/)
-- [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
+- **Node.js** (v20.12.2 or later)
+- **PostgreSQL** for database management
+- A Discord bot token from the [Discord Developer Portal](https://discord.com/developers/applications)
+- Riot Games API key from the [Riot Developer Portal](https://developer.riotgames.com/)
 
 ### Installation
 
@@ -48,88 +55,100 @@ Make sure you have the following installed:
     cd valorant-tracker
     ```
 
-3. Install the dependencies:
+3. Install dependencies:
 
     ```bash
     npm install
     ```
 
-### Configuration
+4. Set up environment variables:
 
-1. Create a `.env` file in the root directory and add the following variables:
+    Create a `.env` file in the root directory and configure the following:
 
     ```env
     DISCORD_TOKEN=your_discord_bot_token
-    VALORANT_API_KEY=your_valorant_api_key
-	CLIENT_ID=your_discord_application_id
+    RIOT_API_KEY=your_riot_api_key
+    DATABASE_URL=your_postgresql_database_url
     ```
 
-2. Replace `your_discord_bot_token`, `your_valorant_api_key`, `your_discord_application_id` with your Token, API Key, and Application ID.
+5. Run database migrations:
 
-### Usage
+    Ensure your PostgreSQL database is set up, and migrate any necessary schema.
 
-1. Start the bot:
+6. Start the bot:
 
     ```bash
     node index.js
     ```
 
-2. Invite the bot to your Discord server using the OAuth2 URL generated from the Discord Developer Portal.
+## Usage
 
-3. Use the bot commands in your server to fetch Valorant stats. For example:
+Invite the bot to your server and use the following commands to interact with it. The bot will fetch player statistics and display them within Discord.
 
-    ```text
-    /track username tag
-    ```
+## Commands
 
-### Deployment
+- `/track <player_name> <tag>` - Display the current and peak rank of a player.
+- `/add_announcements` - Adds or updates channel announcements for tracked players.
+- `/add_tracker <player_name> <tag>` - Add a player to the tracking list for Valorant stats.
+- `/untrack <player_name> <tag>` - Remove a player from tracking.
+- `/view_list` - Fetch and display a list of all tracked users in current server.
+  
+More commands can be added as needed by modifying the `commands/` directory.
 
-To deploy the bot to Heroku, follow these steps:
+## Database
 
-1. Login to Heroku:
+This project uses PostgreSQL to store player data, ensuring persistence across bot restarts. The database is configured via the `pg` Node.js package.
+
+Ensure your `DATABASE_URL` is correctly set in the `.env` file.
+
+## Deployment
+
+This bot is deployed using **Heroku** with a worker dyno. You can deploy the bot by following these steps:
+
+1. Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
+2. Log in to Heroku:
 
     ```bash
     heroku login
     ```
 
-2. Create a new Heroku app:
+3. Create a new Heroku app:
 
     ```bash
     heroku create your-app-name
     ```
 
-3. Push the code to Heroku:
+4. Set environment variables in Heroku:
+
+    ```bash
+    heroku config:set DISCORD_TOKEN=your_discord_bot_token RIOT_API_KEY=your_riot_api_key DATABASE_URL=your_postgresql_database_url
+    ```
+
+5. Deploy to Heroku:
 
     ```bash
     git push heroku main
     ```
 
-4. Set the environment variables on Heroku:
+## Built With
 
-    ```bash
-    heroku config:set DISCORD_TOKEN=your_discord_bot_token
-    heroku config:set VALORANT_API_KEY=your_valorant_api_key
-    heroku config:set CLIENT_ID=your_discord_application_id
-    ```
-
-5. Start the bot:
-
-    ```bash
-    heroku ps:scale web=1
-    ```
+- **Node.js** - Backend environment
+- **Discord.js** - Discord API library
+- **Express.js** - Server framework
+- **PostgreSQL** - Database
+- **Riot API** - Valorant stats fetching
 
 ## Contributing
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are welcome! Feel free to fork the repository and submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/YourNewFeature`)
-3. Commit your Changes (`git commit -m 'Add some YourNewFeature'`)
-4. Push to the Branch (`git push origin feature/YourNewFeature`)
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## License
+## Contact
 
-Distributed under the MIT License. See `LICENSE` for more information.
+JuanTGit - [GitHub](https://github.com/JuanTGit)
 
----
