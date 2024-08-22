@@ -1,6 +1,5 @@
 # Valorant Tracker Discord Bot
 
-![License](https://img.shields.io/github/license/JuanTGit/valorant-tracker)  
 A Discord bot that tracks and displays Valorant player stats using Riot Games' API.
 
 ## Table of Contents
