@@ -22,7 +22,7 @@ client.on('ready', () => {
 
     setInterval(async () => {
         try {
-            console.log('Polling Users')
+            // console.log('Polling Users')
             await pollRankUpdates();
         } catch (error) {
             console.error('Error during polling:', error);
