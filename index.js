@@ -27,7 +27,7 @@ client.on('ready', () => {
         } catch (error) {
             console.error('Error during polling:', error);
         }
-    }, 10 * 60 * 1000);
+    }, 4 * 60 * 1000);
     
 });
 
