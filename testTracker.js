@@ -12,5 +12,3 @@ export async function getUserData(name, tag) {
 	const data = await response.json()
 	console.log(data.data.current.tier.id)
 }
-
-// getUserData(`ric00`, `2264`)
